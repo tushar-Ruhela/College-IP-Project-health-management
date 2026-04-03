@@ -1,0 +1,13 @@
+openai-whisper==20231117
+google-generativeai==0.3.2
+gtts==2.5.1
+pygame==2.5.2
+sounddevice==0.4.6
+numpy==1.24.3
+scipy==1.11.4
+flask==3.0.0
+flask-socketio==5.3.6
+flask-cors==4.0.0
+python-socketio==5.10.0
+eventlet==0.33.3
+uuid==1.30
