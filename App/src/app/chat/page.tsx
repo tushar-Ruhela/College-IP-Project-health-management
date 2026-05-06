@@ -26,13 +26,8 @@ function Timestamp({ date }: { date: Date }) {
   }, [date]);
 
   if (!mounted) {
-    // Return a placeholder during SSR that matches the expected format
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
-    const displayHours = hours % 12 || 12;
-    const displayMinutes = minutes.toString().padStart(2, '0');
-    return <span>{`${displayHours}:${displayMinutes} ${ampm}`}</span>;
+    // Return empty span during SSR to avoid hydration mismatch due to timezones
+    return <span></span>;
   }
 
   return <span>{timeString}</span>;

@@ -45,7 +45,7 @@ async function scanMedicine(imageData, language = 'en') {
 
     // Exact copy of Saral_Pro initialization
     const genAI = new GoogleGenerativeAI(API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-pro" });
 
     // Prompt to extract structured medicine information
     const prompt = `

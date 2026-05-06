@@ -55,14 +55,15 @@ export function AIDiagnosisCard() {
               </p>
             </div>
           </div>
-          <Link href="/ai-diagnosis">
-            <Button
-              variant="secondary"
-              className="w-full bg-white text-[#5A8A12] hover:bg-gray-50 h-12 text-base font-extrabold rounded-xl shadow-lg"
-            >
+          <Button
+            asChild
+            variant="secondary"
+            className="w-full bg-white text-[#5A8A12] hover:bg-gray-50 h-12 text-base font-extrabold rounded-xl shadow-lg"
+          >
+            <Link href="/ai-diagnosis">
               Start AI Assessment
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </Card>
     </motion.div>

@@ -305,14 +305,14 @@ export default function MedicalRoom() {
       // Add AI greeting message
       setChatMessages(prev => [...prev, {
         id: Date.now(),
-        text: "👋 Hello! I'm Dr. Nirogya, your AI health assistant. How can I help you today?",
-        sender: "Dr. Nirogya",
+        text: "👋 Hello! I'm Dr. Sanjeevani, your AI health assistant. How can I help you today?",
+        sender: "Dr. Sanjeevani",
         timestamp: new Date().toLocaleTimeString(),
         isAI: true
       }]);
 
       // Speak the greeting
-      speakText("Hello! I'm Dr. Nirogya, your AI health assistant. How can I help you today?");
+      speakText("Hello! I'm Dr. Sanjeevani, your AI health assistant. How can I help you today?");
 
       setAiStatus("ready");
 
@@ -404,7 +404,7 @@ export default function MedicalRoom() {
 
     setChatMessages(prev => [...prev, {
       id: Date.now(),
-      text: "👋 Conversation ended. Thank you for talking with Dr. Nirogya!",
+      text: "👋 Conversation ended. Thank you for talking with Dr. Sanjeevani!",
       sender: "System",
       timestamp: new Date().toLocaleTimeString()
     }]);
@@ -426,7 +426,7 @@ const getAIVoiceResponse = async (userMessage) => {
   }
 
   try {
-    const systemPrompt = `You are Dr. Nirogya, a friendly and professional AI health assistant in a video consultation.
+    const systemPrompt = `You are Dr. Sanjeevani, a friendly and professional AI health assistant in a video consultation.
 
 Your role:
 - Answer general health-related questions with empathy and clarity
@@ -444,7 +444,7 @@ Response guidelines:
 
 Example responses:
 User: "I have a headache and fever of 101°F"
-Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache could indicate an infection. Please rest, stay hydrated, take over-the-counter fever reducers like acetaminophen, and consult your doctor if symptoms worsen or persist beyond 2-3 days."`;
+Dr. Sanjeevani: "I'm sorry you're not feeling well. A fever of 101°F with headache could indicate an infection. Please rest, stay hydrated, take over-the-counter fever reducers like acetaminophen, and consult your doctor if symptoms worsen or persist beyond 2-3 days."`;
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`,
@@ -456,7 +456,7 @@ Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `${systemPrompt}\n\nUser: ${userMessage}\n\nDr. Nirogya:`
+              text: `${systemPrompt}\n\nUser: ${userMessage}\n\nDr. Sanjeevani:`
             }]
           }],
           generationConfig: {
@@ -479,7 +479,7 @@ Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache
       setChatMessages(prev => [...prev, {
         id: Date.now(),
         text: fallbackResponse,
-        sender: "Dr. Nirogya",
+        sender: "Dr. Sanjeevani",
         timestamp: new Date().toLocaleTimeString(),
         isAI: true
       }]);
@@ -487,7 +487,7 @@ Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache
       // Add to transcript
       setAiTranscript(prev => [...prev, {
         id: Date.now(),
-        speaker: "Dr. Nirogya",
+        speaker: "Dr. Sanjeevani",
         text: fallbackResponse,
         timestamp: new Date().toLocaleTimeString()
       }]);
@@ -523,7 +523,7 @@ Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache
     setChatMessages(prev => [...prev, {
       id: Date.now(),
       text: aiText,
-      sender: "Dr. Nirogya",
+      sender: "Dr. Sanjeevani",
       timestamp: new Date().toLocaleTimeString(),
       isAI: true
     }]);
@@ -531,7 +531,7 @@ Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache
     // Add to transcript
     setAiTranscript(prev => [...prev, {
       id: Date.now(),
-      speaker: "Dr. Nirogya",
+      speaker: "Dr. Sanjeevani",
       text: aiText,
       timestamp: new Date().toLocaleTimeString()
     }]);
@@ -564,7 +564,7 @@ Dr. Nirogya: "I'm sorry you're not feeling well. A fever of 101°F with headache
     setChatMessages(prev => [...prev, {
       id: Date.now(),
       text: errorResponse,
-      sender: "Dr. Nirogya",
+      sender: "Dr. Sanjeevani",
       timestamp: new Date().toLocaleTimeString(),
       isAI: true
     }]);
@@ -647,7 +647,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
   }
 
   try {
-    const systemPrompt = `You are Dr. Nirogya, a friendly AI health assistant. Answer health questions concisely (max 50 words), recommend seeing a doctor for serious issues, and prioritize patient safety.`;
+    const systemPrompt = `You are Dr. Sanjeevani, a friendly AI health assistant. Answer health questions concisely (max 50 words), recommend seeing a doctor for serious issues, and prioritize patient safety.`;
 
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`,
@@ -659,7 +659,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `${systemPrompt}\n\nUser: ${userMessage}\n\nDr. Nirogya:`
+              text: `${systemPrompt}\n\nUser: ${userMessage}\n\nDr. Sanjeevani:`
             }]
           }],
           generationConfig: {
@@ -680,14 +680,14 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
       setChatMessages(prev => [...prev, {
         id: Date.now(),
         text: fallbackResponse,
-        sender: "Dr. Nirogya",
+        sender: "Dr. Sanjeevani",
         timestamp: new Date().toLocaleTimeString(),
         isAI: true
       }]);
 
       setAiTranscript(prev => [...prev, {
         id: Date.now(),
-        speaker: "Dr. Nirogya",
+        speaker: "Dr. Sanjeevani",
         text: fallbackResponse,
         timestamp: new Date().toLocaleTimeString()
       }]);
@@ -721,14 +721,14 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
     setChatMessages(prev => [...prev, {
       id: Date.now(),
       text: aiText,
-      sender: "Dr. Nirogya",
+      sender: "Dr. Sanjeevani",
       timestamp: new Date().toLocaleTimeString(),
       isAI: true
     }]);
 
     setAiTranscript(prev => [...prev, {
       id: Date.now(),
-      speaker: "Dr. Nirogya",
+      speaker: "Dr. Sanjeevani",
       text: aiText,
       timestamp: new Date().toLocaleTimeString()
     }]);
@@ -769,7 +769,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
     setChatMessages(prev => [...prev, {
       id: Date.now(),
       text: errorResponse,
-      sender: "Dr. Nirogya",
+      sender: "Dr. Sanjeevani",
       timestamp: new Date().toLocaleTimeString(),
       isAI: true
     }]);
@@ -1359,7 +1359,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                 fontWeight: 'bold',
                 textShadow: '0 2px 4px rgba(0,0,0,0.3)'
               }}>
-                {isAIOnlyMode ? "🤖 AI Voice Agent Room" : "🏥 Nirogya Consultation Room"}: {roomId}
+                {isAIOnlyMode ? "🤖 AI Voice Agent Room" : "🏥 Sanjeevani Consultation Room"}: {roomId}
               </h2>
               <div className={`status-indicator ${connectionStatus}`} style={{
                 display: 'flex',
@@ -1776,7 +1776,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                 </div>
                 <div style={{ textAlign: 'center', color: 'white' }}>
                   <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-                    Dr. Nirogya
+                    Dr. Sanjeevani
                   </div>
                   <div style={{ fontSize: '0.875rem', opacity: 0.8 }}>
                     {isAISpeaking ? '🗣️ Speaking...' : '👂 Listening...'}
@@ -1798,7 +1798,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
               }}>
                 <Bot size={16} />
                 <span className="video-name" style={{ fontWeight: '600' }}>
-                  Dr. Nirogya (AI)
+                  Dr. Sanjeevani (AI)
                 </span>
                 <span className="video-status active" style={{
                   display: 'flex',
@@ -2085,7 +2085,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                         Welcome to AI Voice Consultation
                       </h3>
                       <p style={{ fontSize: '1rem', marginBottom: '2rem', maxWidth: '400px' }}>
-                        Click the button below to start a real-time voice conversation with Dr. Nirogya, 
+                        Click the button below to start a real-time voice conversation with Dr. Sanjeevani, 
                         your AI health assistant. Speak naturally and get instant responses!
                       </p>
                       <button
@@ -2271,7 +2271,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                       {aiTranscript.map((entry, index) => (
                         <div key={entry.id} style={{
                           background: entry.speaker === "System" ? '#dbeafe' : 
-                                     entry.speaker === "Doctor" || entry.speaker === "Dr. Nirogya" ? '#f0fdf4' : 
+                                     entry.speaker === "Doctor" || entry.speaker === "Dr. Sanjeevani" ? '#f0fdf4' : 
                                      '#fef3c7',
                           padding: '1rem',
                           borderRadius: '0.75rem',
@@ -2287,13 +2287,13 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                             <div style={{ 
                               fontWeight: 'bold', 
                               color: entry.speaker === "System" ? '#1e40af' :
-                                     entry.speaker === "Doctor" || entry.speaker === "Dr. Nirogya" ? '#15803d' :
+                                     entry.speaker === "Doctor" || entry.speaker === "Dr. Sanjeevani" ? '#15803d' :
                                      '#92400e',
                               display: 'flex',
                               alignItems: 'center',
                               gap: '0.5rem'
                             }}>
-                              {(entry.speaker === "Doctor" || entry.speaker === "Dr. Nirogya") && <Stethoscope size={16} />}
+                              {(entry.speaker === "Doctor" || entry.speaker === "Dr. Sanjeevani") && <Stethoscope size={16} />}
                               {entry.speaker === "Patient" || entry.speaker === "You" ? <User size={16} /> : null}
                               {entry.speaker === "System" && <Bot size={16} />}
                               {entry.speaker}
@@ -2363,7 +2363,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
 
                       <div>
                         <h4 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937', marginBottom: '0.5rem' }}>
-                          {patientInfo?.name || 'Swasti Mohanty'}
+                          {patientInfo?.name || 'Tushar'}
                         </h4>
                         <div style={{ display: 'flex', gap: '1rem', fontSize: '0.875rem', color: '#6b7280' }}>
                           <span>📅 Age: {patientInfo?.age || '20'}</span>
@@ -2657,7 +2657,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                         <div style={{ color: '#6b7280', fontSize: '0.875rem' }}>
                           Internal Medicine Specialist<br/>
                           License: MD123456<br/>
-                          Nirogya Medical Center<br/>
+                          Sanjeevani Medical Center<br/>
                           123 Healthcare Blvd, Medical City, MC 12345<br/>
                           Phone: (555) 123-4567
                         </div>
@@ -2671,7 +2671,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                     <div style={{ padding: '1rem', background: '#f0f9ff', borderRadius: '0.75rem', border: '1px solid #bae6fd' }}>
                       <div style={{ fontWeight: '600', color: '#0c4a6e', marginBottom: '0.5rem' }}>👤 Patient Information</div>
                       <div style={{ color: '#374151', fontSize: '0.875rem' }}>
-                        <strong>Name:</strong> {patientInfo?.name || 'Swasti Mohanty'}<br/>
+                        <strong>Name:</strong> {patientInfo?.name || 'Tushar'}<br/>
                         <strong>Age:</strong> {patientInfo?.age || '20'} years<br/>
                         <strong>MRN:</strong> {patientInfo?.mrn?.substring(0, 8) || 'MRN12345'}<br/>
                         <strong>Date of Birth:</strong> {patientInfo?.dob || 'July 30, 2005'}
@@ -2858,7 +2858,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                     <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
                       <button
                         onClick={() => {
-                          alert('✅ Prescription saved successfully!\n\nPatient: ' + (patientInfo?.name || 'Swasti Mohanty') + '\nDate: ' + new Date().toLocaleDateString() + '\nMedications: 3 items prescribed\n\nPrescription has been sent to pharmacy.');
+                          alert('✅ Prescription saved successfully!\n\nPatient: ' + (patientInfo?.name || 'Tushar') + '\nDate: ' + new Date().toLocaleDateString() + '\nMedications: 3 items prescribed\n\nPrescription has been sent to pharmacy.');
                         }}
                         style={{
                           display: 'flex',
@@ -2884,7 +2884,7 @@ const getAIVoiceResponseWithRetry = async (userMessage, retryCount = 0) => {
                         onClick={() => {
                           const prescriptionData = {
                             doctor: 'Dr. Aryan Sharma',
-                            patient: patientInfo?.name || 'Swasti Mohanty',
+                            patient: patientInfo?.name || 'Tushar',
                             date: new Date().toLocaleDateString(),
                             medications: 3
                           };

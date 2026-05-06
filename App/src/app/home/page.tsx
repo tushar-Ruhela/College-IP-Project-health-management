@@ -1,21 +1,62 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BottomNav } from '@/components/navigation/BottomNav';
 import { HealthAssessmentCard } from '@/components/home/HealthAssessmentCard';
 import { HealthMetrics } from '@/components/home/HealthMetrics';
 import { AIDiagnosisCard } from '@/components/home/AIDiagnosisCard';
 import { getStorageItem, STORAGE_KEYS } from '@/lib/storage';
-import { Bell, Search, Plus, Calendar } from 'lucide-react';
+import { Bell, Search, Plus, Calendar, X, FileText, Activity, User, HeartPulse, Droplets } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const [userName, setUserName] = useState('');
   const [hasCompletedAssessment, setHasCompletedAssessment] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
+  
+  const searchRef = useRef<HTMLDivElement>(null);
+  const notifRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  // Click outside to close
   useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false);
+      }
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const searchItems = [
+    { id: 1, title: 'Cardiologist Consultation', type: 'Appointment', icon: User },
+    { id: 2, title: 'Blood Test Results', type: 'Records', icon: FileText },
+    { id: 3, title: 'Heart Rate Trends', type: 'Insights', icon: HeartPulse },
+    { id: 4, title: 'Daily Steps Goal', type: 'Activity', icon: Activity },
+    { id: 5, title: 'Hydration Target', type: 'Activity', icon: Droplets },
+  ];
+
+  const filteredSearch = searchItems.filter(item => 
+    item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.type.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const notifications = [
+    { id: 1, title: 'Blood test results', desc: 'Your recent blood work is now available.', time: '2h ago', unread: true },
+    { id: 2, title: 'Hydration Goal', desc: "You're 200ml away from your daily goal!", time: '4h ago', unread: true },
+    { id: 3, title: 'Upcoming Appointment', desc: 'Dr. Sarah Smith in 2 days.', time: '1d ago', unread: false },
+  ];
+
+  useEffect(() => {
+    setIsMounted(true);
     const userInfo = getStorageItem<{ name: string }>(STORAGE_KEYS.USER_INFO);
     if (userInfo) {
       setUserName(userInfo.name);
@@ -36,13 +77,15 @@ export default function HomePage() {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#2F3C31] rounded-3xl p-6 shadow-2xl relative overflow-hidden"
+          className="bg-[#2F3C31] rounded-3xl p-6 shadow-2xl relative z-50"
         >
           {/* Subtle background blur effects */}
-          <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/3 rounded-full blur-2xl" />
+          <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+            <div className="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/3 rounded-full blur-2xl" />
+          </div>
           
-          <div className="relative z-10">
+          <div className="relative z-50">
             {/* Top bar with date, locale switcher, and notification */}
             <div className="flex items-center justify-between mb-4">
               <motion.div
@@ -53,12 +96,13 @@ export default function HomePage() {
               >
                 <Calendar className="w-4 h-4 text-white/70" />
                 <span className="text-white/90 text-sm font-medium">
-                  {new Date().toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase()}
+                  {isMounted ? new Date().toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase() : ''}
                 </span>
               </motion.div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2" ref={notifRef}>
                 {/* Notification Bell */}
                 <motion.button
+                  onClick={() => setShowNotifications(!showNotifications)}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ 
@@ -74,6 +118,41 @@ export default function HomePage() {
                   <Bell className="w-5 h-5 text-white/90" />
                   <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-[#2F3C31]" />
                 </motion.button>
+                
+                {/* Notifications Dropdown */}
+                <AnimatePresence>
+                  {showNotifications && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      className="absolute right-4 top-16 w-80 bg-white rounded-2xl shadow-2xl z-50 overflow-hidden border border-gray-100"
+                    >
+                      <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h3 className="font-bold text-gray-800">Notifications</h3>
+                        <button onClick={() => setShowNotifications(false)} className="text-gray-400 hover:text-gray-600">
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="max-h-80 overflow-y-auto">
+                        {notifications.map(notif => (
+                          <div key={notif.id} className={`p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors cursor-pointer ${notif.unread ? 'bg-blue-50/30' : ''}`}>
+                            <div className="flex justify-between items-start mb-1">
+                              <h4 className="font-semibold text-sm text-gray-800">{notif.title}</h4>
+                              <span className="text-xs text-gray-400">{notif.time}</span>
+                            </div>
+                            <p className="text-xs text-gray-600">{notif.desc}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="p-3 text-center border-t border-gray-100 bg-gray-50">
+                        <button className="text-sm font-semibold text-[#83C818] hover:text-[#2F3C31] transition-colors">
+                          View all notifications
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
@@ -122,6 +201,7 @@ export default function HomePage() {
 
             {/* Search bar - Darker with neumorphism */}
             <motion.div
+              ref={searchRef}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
@@ -130,12 +210,50 @@ export default function HomePage() {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/60" />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSearchResults(true);
+                }}
+                onFocus={() => setShowSearchResults(true)}
                 placeholder="Search anything..."
                 className="w-full pl-12 pr-4 py-3.5 rounded-2xl bg-[#1f2a22] border border-white/10 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20 text-base font-medium shadow-inner transition-all duration-200"
                 style={{
                   boxShadow: 'inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(255, 255, 255, 0.1)'
                 }}
               />
+              
+              {/* Search Results Dropdown */}
+              <AnimatePresence>
+                {showSearchResults && searchQuery && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 5 }}
+                    className="absolute left-0 right-0 top-full mt-2 bg-white rounded-2xl shadow-xl z-50 overflow-hidden border border-gray-100"
+                  >
+                    {filteredSearch.length > 0 ? (
+                      <div className="py-2">
+                        {filteredSearch.map(item => (
+                          <div key={item.id} className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-center gap-3 transition-colors">
+                            <div className="bg-gray-100 p-2 rounded-lg text-gray-600">
+                              <item.icon className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-gray-800">{item.title}</p>
+                              <p className="text-xs text-gray-500">{item.type}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-6 text-center text-gray-500">
+                        <p className="text-sm">No results found for "{searchQuery}"</p>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           </div>
         </motion.div>

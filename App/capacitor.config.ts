@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
-  appId: 'tech.nirogya.app',
-  appName: 'nirogya',
+  appId: 'tech.sanjeevani.app',
+  appName: 'sanjeevani',
   webDir: 'out',
   server: {
     androidScheme: 'https'

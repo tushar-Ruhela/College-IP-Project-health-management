@@ -59,7 +59,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Nirogya
+                Sanjeevani
               </h1>
               <p className="text-xs text-gray-500 font-medium">Telemedicine Platform</p>
             </div>
@@ -175,7 +175,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
               <Stethoscope size={16} className="text-white" />
             </div>
-            <span className="text-gray-600 text-sm">© 2025 Nirogya Telemedicine Platform</span>
+            <span className="text-gray-600 text-sm">© 2025 Sanjeevani Telemedicine Platform</span>
           </div>
           <div className="flex items-center gap-6 text-sm text-gray-600">
             <a href="#" className="hover:text-blue-600">Privacy Policy</a>

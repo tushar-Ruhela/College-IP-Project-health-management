@@ -1,4 +1,4 @@
-package tech.nirogya.app;
+package tech.sanjeevani.app;
 
 import com.getcapacitor.BridgeActivity;
 

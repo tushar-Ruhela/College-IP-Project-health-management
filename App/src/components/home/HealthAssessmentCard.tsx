@@ -32,12 +32,12 @@ export function HealthAssessmentCard() {
             <p className="text-sm text-gray-600 mb-4 leading-relaxed">
               Complete your health assessment to get personalized insights and recommendations.
             </p>
-            <Link href="/assessment">
-              <Button className="w-full bg-[#83C818] hover:bg-[#6BA014] text-white h-12 text-base font-bold rounded-xl shadow-lg">
+            <Button asChild className="w-full bg-[#83C818] hover:bg-[#6BA014] text-white h-12 text-base font-bold rounded-xl shadow-lg">
+              <Link href="/assessment">
                 Start Assessment
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </Card>

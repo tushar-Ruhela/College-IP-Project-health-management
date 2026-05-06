@@ -33,7 +33,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html className="h-full" data-scroll-behavior="smooth">
+		<html className="h-full" data-scroll-behavior="smooth" suppressHydrationWarning>
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>

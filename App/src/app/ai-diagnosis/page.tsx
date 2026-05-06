@@ -278,11 +278,11 @@ export default function AIDiagnosisPage() {
       {/* Header */}
       <div className="sticky top-0 z-40 bg-[#1a1a1a]/80 backdrop-blur-xl border-b border-white/10">
         <div className="flex items-center gap-4 p-4">
-          <Link href="/home">
-            <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/10">
+          <Button asChild variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/10">
+            <Link href="/home">
               <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <div className="flex-1">
             <h1 className="text-xl font-semibold text-white">AI Diagnosis</h1>
             <p className="text-sm text-white/70">Voice consultation</p>
@@ -337,11 +337,11 @@ export default function AIDiagnosisPage() {
                 >
                   Try Again
                 </Button>
-                <Link href="/home">
-                  <Button variant="outline" className="mt-2 text-white border-white/20">
+                <Button asChild variant="outline" className="mt-2 text-white border-white/20">
+                  <Link href="/home">
                     Go Back
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
             </div>
               </motion.div>
         )}

@@ -1,6 +1,7 @@
 import { DynamicStructuredTool } from '@langchain/core/tools';
 import { z } from 'zod';
 import mongoose from 'mongoose';
+import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
 
 /**
  * Medical Knowledge RAG Tool
@@ -17,38 +18,79 @@ const medicalKnowledgeSchema = new mongoose.Schema({
   keywords: [String],
   category: String,
   source: String,
+  embedding: [Number],
   createdAt: { type: Number, default: () => Date.now() }
 }, { collection: 'medicalknowledge', timestamps: false });
 
 const MedicalKnowledge = mongoose.models.MedicalKnowledge || 
   mongoose.model('MedicalKnowledge', medicalKnowledgeSchema);
 
+function cosineSimilarity(vecA, vecB) {
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < vecA.length; i++) {
+    dotProduct += vecA[i] * vecB[i];
+    normA += vecA[i] * vecA[i];
+    normB += vecB[i] * vecB[i];
+  }
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
 /**
  * Search medical knowledge database
  */
 async function searchMedicalKnowledge(query) {
   try {
-    // Simple keyword search (can be enhanced with vector search if MongoDB Atlas available)
     const searchTerms = query.toLowerCase().split(/\s+/);
+    let results = [];
     
-    const results = await MedicalKnowledge.find({
-      $or: [
-        { title: { $regex: query, $options: 'i' } },
-        { content: { $regex: query, $options: 'i' } },
-        { keywords: { $in: searchTerms } }
-      ]
-    })
-      .limit(5)
-      .sort({ createdAt: -1 })
-      .lean();
+    try {
+      // Try semantic search first
+      const embeddings = new GoogleGenerativeAIEmbeddings({
+        apiKey: process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY,
+        modelName: 'gemini-embedding-2'
+      });
+      
+      const queryEmbedding = await embeddings.embedQuery(query);
+      const allDocs = await MedicalKnowledge.find({}).lean();
+      
+      if (allDocs.length > 0 && allDocs[0].embedding) {
+        // Compute similarity scores in memory
+        const scoredDocs = allDocs.map(doc => {
+          const score = doc.embedding ? cosineSimilarity(queryEmbedding, doc.embedding) : 0;
+          return { ...doc, score };
+        });
+        
+        // Sort by score and take top 5
+        scoredDocs.sort((a, b) => b.score - a.score);
+        results = scoredDocs.slice(0, 5).filter(d => d.score > 0.5);
+      }
+    } catch (e) {
+      console.warn('Semantic search failed, falling back to keyword search:', e.message);
+    }
+    
+    // Fallback to keyword search if semantic search yields no results
+    if (results.length === 0) {
+      results = await MedicalKnowledge.find({
+        $or: [
+          { title: { $regex: query, $options: 'i' } },
+          { content: { $regex: query, $options: 'i' } },
+          { keywords: { $in: searchTerms } }
+        ]
+      })
+        .limit(5)
+        .sort({ createdAt: -1 })
+        .lean();
+    }
 
     if (results.length === 0) {
       return {
         success: true,
         query,
         results: [],
-        message: 'No medical knowledge found in database. Consider adding medical information to the database.',
-        note: 'This is a basic keyword search. For better results, consider using MongoDB Atlas Vector Search with embeddings.'
+        message: 'No local medical knowledge found. You MUST use your own built-in medical knowledge to answer the user safely and helpfully. Do not say you could not find information.',
+        note: 'Fallback to your general knowledge.'
       };
     }
 

@@ -72,11 +72,11 @@ export default function AssessmentPage() {
     <div className="min-h-screen bg-background pb-20 flex flex-col">
       <div className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="flex items-center gap-4 p-4">
-          <Link href="/home">
-            <Button variant="ghost" size="icon" className="rounded-full">
+          <Button asChild variant="ghost" size="icon" className="rounded-full">
+            <Link href="/home">
               <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <div className="flex-1">
             <h1 className="text-xl font-semibold">Health Assessment</h1>
             <Progress value={progress} className="mt-2 h-2" />

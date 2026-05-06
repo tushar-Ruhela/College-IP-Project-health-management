@@ -75,7 +75,7 @@ app.get('/health', (req, res) => {
 
 // Root route to confirm server is up (helpful when verifying tunnels)
 app.get('/', (req, res) => {
-  res.send('<h1>Nirogya Health Management Server API</h1><p>Server is running and listening. Tunnel connection is successful! 🚀</p>');
+  res.send('<h1>Sanjeevani Health Management Server API</h1><p>Server is running and listening. Tunnel connection is successful! 🚀</p>');
 });
 
 

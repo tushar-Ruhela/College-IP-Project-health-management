@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { BottomNav } from '@/components/navigation/BottomNav';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Calendar, Download, Search, Stethoscope, Pill, Activity } from 'lucide-react';
+import { FileText, Calendar, Download, Search, Stethoscope, Pill, Activity, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { saveFile, triggerHaptic } from '@/lib/capacitor';
 
@@ -92,6 +92,12 @@ const typeColors = {
 export default function RecordsPage() {
   const [selectedFilter, setSelectedFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMounted, setIsMounted] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState<MedicalRecord | null>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredRecords = records.filter((record) => {
     const matchesFilter = selectedFilter === 'all' || record.type === selectedFilter;
@@ -113,6 +119,8 @@ export default function RecordsPage() {
     acc[dateKey].push(record);
     return acc;
   }, {});
+
+  if (!isMounted) return null;
 
   return (
     <div className="min-h-screen bg-white pb-20">
@@ -260,6 +268,7 @@ export default function RecordsPage() {
                             className="h-8 text-xs rounded-lg"
                             onClick={async () => {
                               await triggerHaptic();
+                              setSelectedRecord(record);
                             }}
                           >
                             View Details
@@ -286,6 +295,90 @@ export default function RecordsPage() {
           </motion.div>
         )}
       </div>
+
+      {/* Details Modal */}
+      <AnimatePresence>
+        {selectedRecord && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-[100]"
+              onClick={() => setSelectedRecord(null)}
+            />
+            {/* Modal */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed left-4 right-4 top-1/2 -translate-y-1/2 bg-white rounded-3xl p-6 shadow-2xl z-[101] max-h-[80vh] overflow-y-auto"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                  <div className={`p-3 rounded-xl ${typeColors[selectedRecord.type]}`}>
+                    {(() => {
+                      const Icon = typeIcons[selectedRecord.type];
+                      return <Icon className="w-6 h-6" />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-xl text-gray-900">{selectedRecord.title}</h3>
+                    <p className="text-sm text-gray-500">{selectedRecord.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSelectedRecord(null)}
+                  className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-600" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                {selectedRecord.doctor && (
+                  <div>
+                    <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Doctor</h4>
+                    <p className="text-gray-900 font-medium">{selectedRecord.doctor}</p>
+                  </div>
+                )}
+                <div>
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Description</h4>
+                  <p className="text-gray-700 leading-relaxed">{selectedRecord.description}</p>
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Status</h4>
+                  <span className={`inline-block px-3 py-1 rounded-xl text-sm font-bold ${
+                    selectedRecord.status === 'completed'
+                      ? 'bg-green-100 text-green-700'
+                      : selectedRecord.status === 'upcoming'
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-yellow-100 text-yellow-700'
+                  }`}>
+                    {selectedRecord.status.charAt(0).toUpperCase() + selectedRecord.status.slice(1)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <Button
+                  className="flex-1 bg-[#83C818] hover:bg-[#73b015] text-white rounded-xl py-6"
+                  onClick={async () => {
+                    await triggerHaptic();
+                    const pdfContent = `Medical Record: ${selectedRecord.title}\nDate: ${selectedRecord.date.toLocaleDateString()}\nDoctor: ${selectedRecord.doctor || 'N/A'}\nDescription: ${selectedRecord.description}\nStatus: ${selectedRecord.status}`;
+                    const filename = `${selectedRecord.title.replace(/\s+/g, '_')}_${selectedRecord.date.toISOString().split('T')[0]}.txt`;
+                    await saveFile(pdfContent, filename, 'text/plain');
+                  }}
+                >
+                  <Download className="w-5 h-5 mr-2" />
+                  Download Record
+                </Button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <BottomNav />
     </div>

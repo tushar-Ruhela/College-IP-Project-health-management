@@ -51,13 +51,13 @@
 	--card-foreground: oklch(0.15 0 0);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.15 0 0);
-	--primary: #83C818; /* Nirogya Green */
+	--primary: #83C818; /* Sanjeevani Green */
 	--primary-foreground: oklch(0.99 0 0);
-	--secondary: oklch(0.75 0.08 180); /* Teal - matches Nirogya branding */
+	--secondary: oklch(0.75 0.08 180); /* Teal - matches Sanjeevani branding */
 	--secondary-foreground: oklch(0.99 0 0);
 	--muted: oklch(0.96 0 0);
 	--muted-foreground: oklch(0.5 0 0);
-	--accent: oklch(0.7 0.1 180); /* Teal accent - matches Nirogya branding */
+	--accent: oklch(0.7 0.1 180); /* Teal accent - matches Sanjeevani branding */
 	--accent-foreground: oklch(0.99 0 0);
 	--destructive: oklch(0.577 0.245 27.325);
 	--border: oklch(0.9 0 0);

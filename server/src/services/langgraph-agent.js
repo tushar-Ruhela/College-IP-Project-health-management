@@ -23,7 +23,7 @@ let chatModel = null;
 
 function getChatModel() {
   if (!chatModel) {
-    const modelName = process.env.GEMINI_MODEL || 'gemini-2.0-flash';
+    const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-pro';
     const apiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY;
 
     if (!apiKey) {

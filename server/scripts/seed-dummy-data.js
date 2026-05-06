@@ -11,22 +11,13 @@ dotenv.config();
 
 // Indian names for doctors
 const INDIAN_DOCTORS = [
-  {
-    doctorId: 'doc_1',
-    name: 'Dr. Aisha Khan',
-    specialization: 'Cardiologist',
-    phoneNumber: '+919876543210',
-    email: 'aisha.khan@nirogya.com',
-    hospital: 'Apollo Hospital, Bengaluru',
-    experience: '15 years',
-    qualifications: ['MBBS', 'MD Cardiology', 'DM Cardiology']
-  },
+  
   {
     doctorId: 'doc_2',
     name: 'Dr. Rajesh Kumar',
     specialization: 'General Physician',
     phoneNumber: '+919876543211',
-    email: 'rajesh.kumar@nirogya.com',
+    email: 'rajesh.kumar@sanjeevani.com',
     hospital: 'Fortis Hospital, Mumbai',
     experience: '12 years',
     qualifications: ['MBBS', 'MD General Medicine']
@@ -36,7 +27,7 @@ const INDIAN_DOCTORS = [
     name: 'Dr. Priya Sharma',
     specialization: 'Pediatrician',
     phoneNumber: '+919876543212',
-    email: 'priya.sharma@nirogya.com',
+    email: 'priya.sharma@sanjeevani.com',
     hospital: 'Max Hospital, Delhi',
     experience: '10 years',
     qualifications: ['MBBS', 'MD Pediatrics']

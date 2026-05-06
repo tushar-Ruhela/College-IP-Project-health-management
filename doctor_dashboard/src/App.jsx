@@ -548,7 +548,7 @@ const App = () => {
         <div className="branding">
           {!sidebarCollapsed && (
             <>
-              <span className="brand-title">Nirogya</span>
+              <span className="brand-title">Sanjeevani</span>
               <p className="brand-subtitle">for doctors</p>
             </>
           )}

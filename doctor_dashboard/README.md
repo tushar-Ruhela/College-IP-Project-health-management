@@ -5,7 +5,7 @@ Responsive doctor cockpit built with React + Vite. The dashboard includes onboar
 ## Getting started
 
 ```bash
-cd /Users/swastimohanty/Documents/Desktop/Scheduler/doc-dash
+cd /home/tushar/class_IP_project/health_management_system/doctor_dashboard
 npm install
 npm run dev
 ```

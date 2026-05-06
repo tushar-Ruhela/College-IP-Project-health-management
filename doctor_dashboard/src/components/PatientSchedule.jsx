@@ -86,7 +86,7 @@ const PatientSchedule = ({ appointments = [] }) => {
               </div>
               {selectedAppointment.channel === "Video consult" && (() => {
                 const roomId = generateRoomId(selectedAppointment.id);
-                const videoLink = `https://nirogyaa.vercel.app/room/${roomId}`;
+                const videoLink = `https://sanjeevaniapp.vercel.app/room/${roomId}`;
                 return (
                   <div className="detail-row">
                     <span>Video Link</span>

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: nirogya-server
+    name: sanjeevani-server
     env: node
     buildCommand: npm install
     startCommand: npm start

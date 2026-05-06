@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "nirogya-server",
+      "name": "sanjeevani-server",
       "dependencies": {
         "@google/generative-ai": "^0.21.0",
         "@langchain/core": "^0.3.0",

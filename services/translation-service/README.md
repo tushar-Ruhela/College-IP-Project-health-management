@@ -1,4 +1,4 @@
-# Real-time Translation Service for Nirogya
+# Real-time Translation Service for Sanjeevani
 
 This service provides real-time speech translation for video calls using OpenAI Whisper for speech recognition, Google Gemini for translation, and gTTS for speech synthesis.
 
@@ -84,7 +84,7 @@ The service will start on `http://localhost:5000`
 
 ### 2. Enable Translation in the Web App
 
-1. Open the Nirogya web application
+1. Open the Sanjeevani web application
 2. On the landing page, toggle "Real-time Translation" 
 3. Select your language and the other person's language
 4. Create or join a room
@@ -193,4 +193,4 @@ For issues and questions:
 
 ## License
 
-This service is part of the Nirogya telemedicine platform.
+This service is part of the Sanjeevani telemedicine platform.

@@ -174,7 +174,7 @@ Scenario: **Patient (Hindi/Punjabi)** + **Doctor (English/Kannada)** on video ca
 - **Devices**: Noise Watch · Strava · Ngrok
 
 ## deployed links
-- https://nirogyaa.vercel.app/
+- https://sanjeevaniapp.vercel.app/
 - https://m-app-livid.vercel.app/
 
 ## Screenshots
